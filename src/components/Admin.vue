@@ -1,7 +1,11 @@
 <template>
-<h1>Sign In</h1>
-<div id="signIn">
-    <form @submit.prevent="signIn">
+    <h1>Admin Page</h1>
+    <div>
+        <button  @click="logout">LOGOUT
+        </button>
+    </div>
+    <div id="registerServer">
+    <form @submit.prevent="register">
       <div>
         <label for="username">email</label>
         <input name="username" v-model="username" placeholder="email">
@@ -17,18 +21,21 @@
 
 <script>
 export default {
-    name: "SignIn",
+    name:"AdminPage",
     data() {
-      return {
-        username: "",
-        password: "",
-      };
+        return {
+        }
     },
     methods: {
-        async signIn() {
+        logout(){
+            this.$router.push("/signin");
+            this.$store.dispatch('setToken', 403)
+        },
+
+        async register() {
             const { username, password} = this;
             const res = await fetch(
-                "http://localhost:5000/admin/login",
+                "http://localhost:5000/admin/servers",
                 {
                 method: "POST",
                 headers: {
@@ -42,11 +49,11 @@ export default {
             );
             const data = await res.json();
             console.log(data);
-            if (data.status == 200){
-                this.$store.dispatch('setToken', res.status)
-                this.$router.push("/admin");
-            }
-            }
-        }
-    };
+            // if (data.status == 200){
+            //     this.$store.dispatch('setToken', res.status)
+            //     this.$router.push("/admin");
+            // }
+            } 
+    }
+}
 </script>

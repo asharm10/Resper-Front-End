@@ -1,4 +1,6 @@
 <template>
+  <div>
+    <h1>Register Page</h1>
     <div id="register">
     <form @submit.prevent="register">
       <div>
@@ -23,6 +25,7 @@
       </div>
       <input type="submit" value="register">
     </form>
+    </div>
   </div>
 </template>
 
@@ -42,7 +45,7 @@
         async register() {
             const { username, password, firstName, lastName,restaurantName } = this;
             const res = await fetch(
-                "http://localhost:5000/register",
+                "http://localhost:5000/admin/register",
                 {
                 method: "POST",
                 headers: {
