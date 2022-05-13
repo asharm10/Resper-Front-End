@@ -1,6 +1,6 @@
 <template>
-<h1>Sign In</h1>
-<div id="signIn">
+  <h1>Sign In</h1>
+  <div id="signIn">
     <form @submit.prevent="signIn">
       <div>
         <label for="username">email</label>
@@ -17,36 +17,37 @@
 
 <script>
 export default {
-    name: "SignIn",
-    data() {
-      return {
-        username: "",
-        password: "",
-      };
-    },
-    methods: {
-        async signIn() {
-            const { username, password} = this;
-            const res = await fetch(
-                "http://localhost:5000/admin/login",
-                {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    username,
-                    password
-                })
-                }
-            );
-            const data = await res.json();
-            console.log(data);
-            if (data.status == 200){
-                this.$store.dispatch('setToken', res.status)
-                this.$router.push("/admin");
-            }
-            }
-        }
+  name: "SignIn",
+  data() {
+    return {
+      username: "",
+      password: "",
     };
+  },
+  methods: {
+    async signIn() {
+      const { username, password } = this;
+      const res = await fetch(
+        "http://localhost:5000/admin/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            username,
+            password
+          })
+        }
+      );
+      const data = await res.json();
+      console.log(data);
+      if (data.status == 200) {
+        this.$store.dispatch('setToken', res.status)
+        this.$router.push("/admin");
+      }
+    }
+  }
+};
 </script>
