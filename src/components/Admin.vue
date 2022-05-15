@@ -17,14 +17,22 @@
             <input type="submit" value="register">
         </form>
     </div>
+    <hr>
+    <div>
+        <li v-for="server in servers.success" v-bind:key="server" >{{ server.username }}</li>
+    </div>
 </template>
-
+ 
 <script>
 export default {
     name: "AdminPage",
     data() {
         return {
+            servers:[]
         }
+    },
+    created() {
+            this.getServers();
     },
     methods: {
         logout() {
@@ -55,6 +63,21 @@ export default {
             //     this.$store.dispatch('setToken', res.status)
             //     this.$router.push("/admin");
             // }
+        },
+
+        async getServers() {
+            const res = await fetch(
+                "http://localhost:5000/admin/servers",
+                {
+                    method: "GET",
+                    credentials: 'include',
+                }
+            ,);
+            let data = await res.json();
+           // data=data.success;
+            console.log(data);
+            this.servers= data;
+            //this.data=data.success;
         }
     }
 }
